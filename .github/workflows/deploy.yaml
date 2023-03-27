@@ -46,12 +46,16 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
         shell: bash
+        # run: ./gradlew clean :{ Module-Name }:buildNeeded --stacktrace --info -x test
         
         
         # [3] 
       - name: Make zip file
         run: zip -r ./$GITHUB_SHA.zip .
         shell: bash
+        
+        # GITHUB_SHA : The commit SHA that triggered the workflow. 
+        # For example, ffac537e6cbbf934b08745a378932722df287a53.
         
         # [4]
       - name: Configure AWS credentials
@@ -63,7 +67,7 @@ jobs:
           
         # [5]
       - name: Upload to S3
-        run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+        run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
 
 
         # [6]
@@ -73,4 +77,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+          --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=$GITHUB_SHA.zip
