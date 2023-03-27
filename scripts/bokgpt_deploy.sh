@@ -15,7 +15,7 @@ echo "> Build file name: $JAR_NAME" >> $DEPLOY_LOG_PATH
 echo "> Build file copy" >> $DEPLOY_LOG_PATH
 cp $BUILD_JAR $DEPLOY_PATH
 
-echo "> Current running pid check" >> $DEPLOY_LOG_PATH
+echo "> Current running pid check..." >> $DEPLOY_LOG_PATH
 CURRENT_PID=$(pgrep -f $JAR_NAME)
 
 if [ -z $CURRENT_PID ]
