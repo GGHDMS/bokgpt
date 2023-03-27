@@ -15,6 +15,6 @@ permissions:
 hooks:
   ApplicationStart:
 #   root (= /github_action) 기준
-    - location: scripts/gh_deploy.sh
+    - location: scripts/bokgpt_deploy.sh
       timeout: 60
       runas: ubuntu
