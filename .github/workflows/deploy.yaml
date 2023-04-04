@@ -1,7 +1,7 @@
 name: CI-CD
 
 
-# event trigger
+# event trigger.
 on:
   push:
     branches:
