@@ -1,0 +1,80 @@
+name: CI-CD
+
+
+# event trigger
+on:
+  push:
+    branches:
+      - main
+      
+env:
+  S3_BUCKET_NAME: bokgpt-bucket
+  RESOURCE_PATH: ./src/main/resources/application.yaml
+  CODE_DEPLOY_APPLICATION_NAME: bokgpt-codedeploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: bokgpt-codedeploygroup
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '17'
+          
+#       - run: java HelloWorldApp.java
+
+
+        # [1]
+      - name: Set yaml file 
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ env.RESOURCE_PATH }} 
+        env:
+          override.value: ${{ secrets.DI_FROM_SECRET }} 
+        
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+        
+        # [2]
+      - name: Build with Gradle
+        run: ./gradlew build
+        shell: bash
+        # run: ./gradlew clean :{ Module-Name }:buildNeeded --stacktrace --info -x test
+        
+        
+        # [3] 
+      - name: Make zip file
+        run: zip -r ./$GITHUB_SHA.zip .
+        shell: bash
+        
+        # GITHUB_SHA : The commit SHA that triggered the workflow. 
+        # For example, ffac537e6cbbf934b08745a378932722df287a53.
+        
+        # [4]
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+          aws-region: ${{ secrets.AWS_REGION }} 
+          
+        # [5]
+      - name: Upload to S3
+        run: aws s3 cp --region ${{ secrets.AWS_REGION }} ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
+
+
+        # [6]
+      - name: Code Deploy
+        run: | 
+          aws deploy create-deployment \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
+          --s3-location bucket=${{ env.S3_BUCKET_NAME }},bundleType=zip,key=$GITHUB_SHA.zip

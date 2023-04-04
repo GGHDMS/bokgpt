@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source:  /
+#   default 설정
+    destination: /home/ubuntu/github_action
+    overwrite: yes
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  ApplicationStart:
+#   root (= /github_action) 기준
+    - location: scripts/bokgpt_deploy.sh
+      timeout: 60
+      runas: ubuntu
