@@ -14,7 +14,7 @@ youthwelfare:
 
 # 중앙부처 데이터
 centerwelfare:
-#  url:
+  #  url:
 
   client:
     serviceKey: La31h1QII2Ktklfb49WpkqUaZLE2qnEZba6qlZl5BEaJQLlleyeiF6UNdd6ahamEUYXZqeP5avmZCIwhHwQQyg==
