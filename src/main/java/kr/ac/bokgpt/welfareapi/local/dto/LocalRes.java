@@ -9,12 +9,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class LocalRes {
 
     private String resultCode;
     private String resultMessage;
     private String pageNo;
     private String totalCount;
+    private String numOfRows;
 
     private List<servList> servList;
 

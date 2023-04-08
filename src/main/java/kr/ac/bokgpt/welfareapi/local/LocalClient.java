@@ -1,18 +1,25 @@
 package kr.ac.bokgpt.welfareapi.local;
 
+import kr.ac.bokgpt.welfareapi.Client;
 import kr.ac.bokgpt.welfareapi.local.dto.LocalReq;
 import kr.ac.bokgpt.welfareapi.local.dto.LocalRes;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 
+@Slf4j
 @Component
-public class LocalClient{
+@Qualifier("localClient")
+public class LocalClient implements Client<LocalRes,LocalReq> {
 
     @Value("${localwelfare.client.serviceKey}")
     private String serviceKey;
@@ -20,30 +27,30 @@ public class LocalClient{
     @Value("${localwelfare.url}")
     private String LocalWelfareUrl;
 
+//    private RestTemplate restTemplate = new RestTemplate();
 
-
-    public LocalRes localSearch(LocalReq localReq){
+    @Override
+    public LocalRes search(LocalReq req) {
         URI uri = UriComponentsBuilder.fromUriString(LocalWelfareUrl)
                 .queryParam("serviceKey",serviceKey)
-                .queryParams(localReq.toMultiValueMap())
-                .build()
-                .encode()
+                .queryParams(req.toMultiValueMap())
+                .build(true)
                 .toUri();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
 
         HttpEntity httpEntity = new HttpEntity<>(headers);
+
         ParameterizedTypeReference<LocalRes> responseType = new ParameterizedTypeReference<LocalRes>(){};
         ResponseEntity<LocalRes> responseEntity = new RestTemplate().exchange(
                 uri,
                 HttpMethod.GET,
                 httpEntity,
-                LocalRes.class
+                responseType
         );
 
         return responseEntity.getBody();
-
     }
 
 }
