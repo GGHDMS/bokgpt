@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.configuration;
+package kr.ac.bokgpt.config;
 
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

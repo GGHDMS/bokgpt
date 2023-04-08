@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.http.*;
-
 import java.net.URI;
 
 
@@ -46,8 +45,6 @@ public class CenterClient implements Client<CenterRes, CenterReq> {
 //        log.info("uri : {}",uri);
 //        log.info("httpEntity : {}",httpEntity);
 
-
-
         restTemplate.getInterceptors().add((request, body, execution) -> {
             ClientHttpResponse response = execution.execute(request,body);
             response.getHeaders().setContentType(MediaType.APPLICATION_XML);
@@ -62,8 +59,6 @@ public class CenterClient implements Client<CenterRes, CenterReq> {
                 httpEntity,
                 responseType
         );
-
-
         return responseEntity.getBody();
     }
 }

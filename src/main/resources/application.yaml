@@ -1,31 +1,15 @@
-
-server:
-  port: '9090'
-
-#swagger
-springdoc:
-  packages-to-scan: kr.ac.bokgpt
-  swagger-ui:
-    path: /bokgpt
-
-# 청년 데이터
-youthwelfare:
-  url: https://www.youthcenter.go.kr/opi/empList.do
-
-# 중앙부처 데이터
-centerwelfare:
-#  url:
-
-  client:
-    serviceKey: La31h1QII2Ktklfb49WpkqUaZLE2qnEZba6qlZl5BEaJQLlleyeiF6UNdd6ahamEUYXZqeP5avmZCIwhHwQQyg==
-
-
-# 지자체 데이터
-localwelfare:
-  url: http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfarelist
-
-  client:
-    serviceKey: La31h1QII2Ktklfb49WpkqUaZLE2qnEZba6qlZl5BEaJQLlleyeiF6UNdd6ahamEUYXZqeP5avmZCIwhHwQQyg==
-
-
-
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/bokgpt?serverTimezone=Asia/Seoul
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    defer-datasource-initialization: true
+    hibernate.ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.default_batch_fetch_size: 100
+    open-in-view: false
+  sql.init.mode: always
