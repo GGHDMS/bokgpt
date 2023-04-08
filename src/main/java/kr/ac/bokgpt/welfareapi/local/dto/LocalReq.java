@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class LocalReq {
 
     private String pageNo="1";
