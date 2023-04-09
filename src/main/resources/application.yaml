@@ -13,3 +13,36 @@ spring:
       hibernate.default_batch_fetch_size: 100
     open-in-view: false
   sql.init.mode: always
+
+
+
+  #swagger
+springdoc:
+  packages-to-scan: kr.ac.bokgpt
+  swagger-ui:
+    path: /bokgpt
+
+# 청년 데이터
+youthwelfare:
+  url: https://www.youthcenter.go.kr/opi/empList.do
+
+  client:
+    serviceKey: ${YOUTH_SERVICEKEY}
+
+# 중앙부처 데이터
+centerwelfare:
+  url: http://apis.data.go.kr/B554287/NationalWelfareInformations/NationalWelfarelist
+
+  client:
+    serviceKey: ${DATA_SERVICEKEY}
+
+
+# 지자체 데이터
+localwelfare:
+  url: http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfarelist
+
+  client:
+    serviceKey: ${DATA_SERVICEKEY}
+
+
+
