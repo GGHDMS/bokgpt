@@ -5,7 +5,7 @@ import kr.ac.bokgpt.domain.classification.Location;
 import kr.ac.bokgpt.domain.welfare.SupportCycle;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Builder
@@ -28,15 +28,20 @@ public class Welfare {
     @JoinColumn(name = "support_cycle_id")
     private SupportCycle supportCycle;
 
+    private String serviceTitle;
     private String serviceId;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String department;
+    @Column(length = 1000)
     private String summary;
+    @Column(length = 2000)
     private String supportedBy;
+    @Column(length = 2000)
     private String selectionCriteria;
+    @Column(length = 2000)
     private String serviceContent;
-    private LocalDateTime lastModifiedAt;
+    private LocalDate lastModifiedAt;
     private String detailLink;
     private int view;
 
