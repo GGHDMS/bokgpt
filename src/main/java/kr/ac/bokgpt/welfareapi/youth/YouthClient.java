@@ -1,17 +1,16 @@
 package kr.ac.bokgpt.welfareapi.youth;
 
 
-import kr.ac.bokgpt.welfareapi.Client;
 import kr.ac.bokgpt.welfareapi.youth.dto.YouthReq;
 import kr.ac.bokgpt.welfareapi.youth.dto.YouthRes;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
 @Component
-@Qualifier("youthClient")
-public class YouthClient implements Client<YouthRes, YouthReq> {
+@RequiredArgsConstructor
+public class YouthClient{
 
 
     @Value("${youthwelfare.client.servicekey}")
@@ -29,8 +28,7 @@ public class YouthClient implements Client<YouthRes, YouthReq> {
 //    @Value("${centerwelfare.url.}")
 //    private static String YouthWelfareUrl;
 
-    @Override
-    public YouthRes search(YouthReq req) {
+    public YouthRes youthSearch(YouthReq req) {
         return null;
     }
 }

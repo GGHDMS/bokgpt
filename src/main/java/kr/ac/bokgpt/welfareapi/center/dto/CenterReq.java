@@ -3,13 +3,14 @@ package kr.ac.bokgpt.welfareapi.center.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Component
 public class CenterReq {
 
     private String pageNo="1";

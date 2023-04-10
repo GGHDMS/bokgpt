@@ -3,12 +3,12 @@ package kr.ac.bokgpt.welfareapi.youth.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
 public class YouthRes {
     private int pageIndex;              //조회 페이지
     private int totalCnt;               //총건수
