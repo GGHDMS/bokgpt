@@ -1,24 +1,24 @@
 package kr.ac.bokgpt.welfareapi.center;
 
-import kr.ac.bokgpt.welfareapi.Client;
 import kr.ac.bokgpt.welfareapi.center.dto.CenterReq;
 import kr.ac.bokgpt.welfareapi.center.dto.CenterRes;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.*;
+
 import java.net.URI;
 
 
 @Component
-@Qualifier("centerClient")
+@RequiredArgsConstructor
 @Slf4j
-public class CenterClient implements Client<CenterRes, CenterReq> {
+public class CenterClient {
 
     @Value("${centerwelfare.client.serviceKey}")
     private String serviceKey;
@@ -29,8 +29,7 @@ public class CenterClient implements Client<CenterRes, CenterReq> {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    @Override
-    public CenterRes search(CenterReq req){
+    public CenterRes centerSearch(CenterReq req){
 
         URI uri = UriComponentsBuilder.fromUriString(CenterWelfareUrl)
                 .queryParam("serviceKey",serviceKey)

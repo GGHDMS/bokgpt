@@ -1,45 +1,60 @@
 package kr.ac.bokgpt.welfareapi;
 
 
+import kr.ac.bokgpt.welfareapi.center.CenterClient;
 import kr.ac.bokgpt.welfareapi.center.dto.CenterReq;
-import kr.ac.bokgpt.welfareapi.center.dto.CenterRes;
+import kr.ac.bokgpt.welfareapi.local.LocalClient;
+import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailReq;
 import kr.ac.bokgpt.welfareapi.local.dto.LocalReq;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalRes;
+import kr.ac.bokgpt.welfareapi.youth.YouthClient;
+import kr.ac.bokgpt.welfareapi.youth.dto.YouthReq;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class ClientTest {
 
-    public final Client<CenterRes, CenterReq> client;
+    @Autowired
+    public LocalClient localClient;
+    @Autowired
+    public CenterClient centerClient;
+    @Autowired
+    public YouthClient youthClient;
 
-    public ClientTest(@Qualifier("centerClient") Client<CenterRes, CenterReq> centerClient){
-        this.client=centerClient;
-    }
+
 
 
     @Test
-    public void searchTest(){
+    public void localSearchTest(){
 
-        var search = new CenterReq();
+        var search = new LocalReq();
         search.setNumOfRows("10");
-        var result = client.search(search);
+        var result = localClient.localSearch(search);
+        System.out.println(result);
+    }
+    @Test
+    public void localDetailSearchTest(){
+
+        var search = new LocalDetailReq();
+        search.setServId("WLF00001138");
+        var result = localClient.localDetailSearch(search);
         System.out.println(result);
     }
 
-//    public final Client<LocalRes, LocalReq> client;
-//
-//    public ClientTest(@Qualifier("localClient") Client<LocalRes, LocalReq> localClient) {
-//        this.client = localClient;
-//    }
-//
-//    @Test
-//    public void searchTest(){
-//
-//        var search = new LocalReq();
-//        search.setNumOfRows("10");
-//        var result = client.search(search);
-//        System.out.println(result);
-//    }
+    @Test
+    public void centerSearchTest(){
+
+        var search = new CenterReq();
+        search.setNumOfRows("10");
+        var result = centerClient.centerSearch(search);
+        System.out.println(result);
+    }
+
+    @Test
+    public void youthSearchTest(){
+        var search = new YouthReq();
+        var result = youthClient.youthSearch(search);
+        System.out.println(result);
+    }
 }

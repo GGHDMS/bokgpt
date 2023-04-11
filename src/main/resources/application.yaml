@@ -40,6 +40,7 @@ centerwelfare:
 # 지자체 데이터
 localwelfare:
   url: http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfarelist
+  detailurl: http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfaredetailed
 
   client:
     serviceKey: ${DATA_SERVICEKEY}

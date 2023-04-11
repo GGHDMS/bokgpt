@@ -3,14 +3,14 @@ package kr.ac.bokgpt.welfareapi.local.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Component
 public class LocalReq {
 
     private String pageNo="1";

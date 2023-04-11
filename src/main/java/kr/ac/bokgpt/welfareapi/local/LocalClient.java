@@ -1,10 +1,11 @@
 package kr.ac.bokgpt.welfareapi.local;
 
-import kr.ac.bokgpt.welfareapi.Client;
+import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailReq;
+import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailRes;
 import kr.ac.bokgpt.welfareapi.local.dto.LocalReq;
 import kr.ac.bokgpt.welfareapi.local.dto.LocalRes;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
@@ -15,20 +16,22 @@ import java.net.URI;
 
 @Slf4j
 @Component
-@Qualifier("localClient")
-public class LocalClient implements Client<LocalRes,LocalReq> {
+@RequiredArgsConstructor
+public class LocalClient{
 
     @Value("${localwelfare.client.serviceKey}")
     private String serviceKey;
 
     @Value("${localwelfare.url}")
-    private String LocalWelfareUrl;
+    private String localWelfareUrl;
+
+    @Value("${localwelfare.detailurl}")
+    private String localWelfareDetailUrl;
 
 //    private RestTemplate restTemplate = new RestTemplate();
 
-    @Override
-    public LocalRes search(LocalReq req) {
-        URI uri = UriComponentsBuilder.fromUriString(LocalWelfareUrl)
+    public LocalRes localSearch(LocalReq req) {
+        URI uri = UriComponentsBuilder.fromUriString(localWelfareUrl)
                 .queryParam("serviceKey",serviceKey)
                 .queryParams(req.toMultiValueMap())
                 .build(true)
@@ -41,6 +44,29 @@ public class LocalClient implements Client<LocalRes,LocalReq> {
 
         ParameterizedTypeReference<LocalRes> responseType = new ParameterizedTypeReference<LocalRes>(){};
         ResponseEntity<LocalRes> responseEntity = new RestTemplate().exchange(
+                uri,
+                HttpMethod.GET,
+                httpEntity,
+                responseType
+        );
+
+        return responseEntity.getBody();
+    }
+
+    public LocalDetailRes localDetailSearch(LocalDetailReq req) {
+        URI uri = UriComponentsBuilder.fromUriString(localWelfareDetailUrl)
+                .queryParam("serviceKey",serviceKey)
+                .queryParam("servId",req.getServId())
+                .build(true)
+                .toUri();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_XML);
+
+        HttpEntity httpEntity = new HttpEntity<>(headers);
+
+        ParameterizedTypeReference<LocalDetailRes> responseType = new ParameterizedTypeReference<LocalDetailRes>(){};
+        ResponseEntity<LocalDetailRes> responseEntity = new RestTemplate().exchange(
                 uri,
                 HttpMethod.GET,
                 httpEntity,
