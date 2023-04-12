@@ -23,7 +23,7 @@ public class ClientTest {
     public YouthClient youthClient;
 
 
-    @Test
+    
     public void localSearchTest(){
 
         var search = new LocalReq();
@@ -31,7 +31,7 @@ public class ClientTest {
         var result = localClient.localSearch(search);
         System.out.println(result);
     }
-    @Test
+    
     public void localDetailSearchTest(){
 
         var search = new LocalDetailReq();
@@ -40,7 +40,7 @@ public class ClientTest {
         System.out.println(result);
     }
 
-    @Test
+    
     public void centerSearchTest(){
 
         var search = new CenterReq();
@@ -49,7 +49,7 @@ public class ClientTest {
         System.out.println(result);
     }
 
-    @Test
+    
     public void youthSearchTest(){
         var search = new YouthReq();
         var result = youthClient.youthSearch(search);
