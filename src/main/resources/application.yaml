@@ -1,3 +1,6 @@
+override:
+  value: 'from application.yaml'
+  
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
