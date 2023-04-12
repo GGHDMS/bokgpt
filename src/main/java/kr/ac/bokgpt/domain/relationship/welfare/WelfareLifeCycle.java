@@ -24,4 +24,9 @@ public class WelfareLifeCycle {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "life_cycle_id")
     private LifeCycle lifeCycle;
+
+    public void addWelfare(Welfare welfare) {
+        this.welfare = welfare;
+        welfare.getWelfareLifeCycles().add(this);
+    }
 }
