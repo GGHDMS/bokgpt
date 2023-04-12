@@ -1,4 +1,5 @@
 #!/bin/bash
+source ~/.bash_profile
 PROJECT_NAME="bokgpt"
 JAR_PATH="/home/ubuntu/github_action/build/libs/*.jar"
 DEPLOY_PATH=/home/ubuntu/$PROJECT_NAME/
