@@ -24,4 +24,9 @@ public class WelfareInterestTheme {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "interest_theme_id")
     private InterestTheme interestTheme;
+
+    public void addWelfare(Welfare welfare) {
+        this.welfare = welfare;
+        welfare.getWelfareInterestThemes().add(this);
+    }
 }
