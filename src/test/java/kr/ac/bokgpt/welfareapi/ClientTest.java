@@ -1,13 +1,13 @@
 package kr.ac.bokgpt.welfareapi;
 
 
-import kr.ac.bokgpt.welfareapi.center.CenterClient;
-import kr.ac.bokgpt.welfareapi.center.dto.CenterReq;
-import kr.ac.bokgpt.welfareapi.local.LocalClient;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailReq;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalReq;
-import kr.ac.bokgpt.welfareapi.youth.YouthClient;
-import kr.ac.bokgpt.welfareapi.youth.dto.YouthReq;
+import kr.ac.bokgpt.api.welfareapi.center.CenterClient;
+import kr.ac.bokgpt.api.welfareapi.center.dto.CenterReq;
+import kr.ac.bokgpt.api.welfareapi.local.LocalClient;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalDetailReq;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalReq;
+import kr.ac.bokgpt.api.welfareapi.youth.YouthClient;
+import kr.ac.bokgpt.api.welfareapi.youth.dto.YouthReq;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +21,6 @@ public class ClientTest {
     public CenterClient centerClient;
     @Autowired
     public YouthClient youthClient;
-
-
 
 
     @Test
