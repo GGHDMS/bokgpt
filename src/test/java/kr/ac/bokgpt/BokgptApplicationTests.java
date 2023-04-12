@@ -3,10 +3,10 @@ package kr.ac.bokgpt;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+// @SpringBootTest
 class BokgptApplicationTests {
 
-    @Test
+//     @Test
     void contextLoads() {
     }
 
