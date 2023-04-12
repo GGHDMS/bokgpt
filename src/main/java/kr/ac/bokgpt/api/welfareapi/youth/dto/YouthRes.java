@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.welfareapi.youth.dto;
+package kr.ac.bokgpt.api.welfareapi.youth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

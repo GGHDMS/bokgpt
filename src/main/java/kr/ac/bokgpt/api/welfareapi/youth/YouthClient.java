@@ -1,9 +1,9 @@
-package kr.ac.bokgpt.welfareapi.youth;
+package kr.ac.bokgpt.api.welfareapi.youth;
 
 
-import kr.ac.bokgpt.welfareapi.youth.dto.YouthReq;
-import kr.ac.bokgpt.welfareapi.youth.dto.YouthRes;
 import lombok.RequiredArgsConstructor;
+import kr.ac.bokgpt.api.welfareapi.youth.dto.YouthReq;
+import kr.ac.bokgpt.api.welfareapi.youth.dto.YouthRes;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

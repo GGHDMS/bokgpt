@@ -1,10 +1,10 @@
-package kr.ac.bokgpt.welfareapi.local;
+package kr.ac.bokgpt.api.welfareapi.local;
 
-import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailReq;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailRes;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalReq;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalRes;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalDetailReq;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalDetailRes;
 import lombok.RequiredArgsConstructor;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalReq;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalRes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -18,7 +18,6 @@ import java.net.URI;
 @Component
 @RequiredArgsConstructor
 public class LocalClient{
-
     @Value("${localwelfare.client.serviceKey}")
     private String serviceKey;
 

@@ -1,8 +1,10 @@
-package kr.ac.bokgpt.welfareapi.center;
+package kr.ac.bokgpt.api.welfareapi.center;
 
-import kr.ac.bokgpt.welfareapi.center.dto.CenterReq;
-import kr.ac.bokgpt.welfareapi.center.dto.CenterRes;
+
 import lombok.RequiredArgsConstructor;
+
+import kr.ac.bokgpt.api.welfareapi.center.dto.CenterReq;
+import kr.ac.bokgpt.api.welfareapi.center.dto.CenterRes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;

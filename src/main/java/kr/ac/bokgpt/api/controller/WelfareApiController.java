@@ -1,21 +1,21 @@
-package kr.ac.bokgpt.controller;
+package kr.ac.bokgpt.api.controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.ac.bokgpt.welfareapi.center.CenterClient;
-import kr.ac.bokgpt.welfareapi.center.dto.CenterReq;
-import kr.ac.bokgpt.welfareapi.center.dto.CenterRes;
-import kr.ac.bokgpt.welfareapi.local.LocalClient;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailReq;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalDetailRes;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalReq;
-import kr.ac.bokgpt.welfareapi.local.dto.LocalRes;
-import kr.ac.bokgpt.welfareapi.youth.YouthClient;
-import kr.ac.bokgpt.welfareapi.youth.dto.YouthReq;
-import kr.ac.bokgpt.welfareapi.youth.dto.YouthRes;
+import kr.ac.bokgpt.api.welfareapi.center.CenterClient;
+import kr.ac.bokgpt.api.welfareapi.center.dto.CenterReq;
+import kr.ac.bokgpt.api.welfareapi.center.dto.CenterRes;
+import kr.ac.bokgpt.api.welfareapi.local.LocalClient;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalDetailReq;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalDetailRes;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalReq;
+import kr.ac.bokgpt.api.welfareapi.local.dto.LocalRes;
+import kr.ac.bokgpt.api.welfareapi.youth.YouthClient;
+import kr.ac.bokgpt.api.welfareapi.youth.dto.YouthReq;
+import kr.ac.bokgpt.api.welfareapi.youth.dto.YouthRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

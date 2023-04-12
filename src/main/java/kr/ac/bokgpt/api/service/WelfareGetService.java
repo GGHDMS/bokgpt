@@ -1,6 +1,6 @@
-package kr.ac.bokgpt.service;
+package kr.ac.bokgpt.api.service;
 
-import kr.ac.bokgpt.db.dto.WelfareRes;
+import kr.ac.bokgpt.api.db.dto.WelfareRes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

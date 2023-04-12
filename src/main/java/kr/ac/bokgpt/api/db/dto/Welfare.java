@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.db.dto;
+package kr.ac.bokgpt.api.db.dto;
 
 
 import lombok.Data;

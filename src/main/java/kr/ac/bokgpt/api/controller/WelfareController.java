@@ -1,11 +1,11 @@
-package kr.ac.bokgpt.controller;
+package kr.ac.bokgpt.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kr.ac.bokgpt.db.dto.WelfareRes;
-import kr.ac.bokgpt.service.WelfareGetService;
+import kr.ac.bokgpt.api.db.dto.WelfareRes;
+import kr.ac.bokgpt.api.service.WelfareGetService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
