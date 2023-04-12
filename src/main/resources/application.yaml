@@ -4,7 +4,7 @@ override:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/bokgpt?serverTimezone=Asia/Seoul
+    url: jdbc:mariadb:bokgpt-db.cmtlresh7878.ap-northeast-2.rds.amazonaws.com/bokgpt?serverTimezone=Asia/Seoul
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
@@ -37,7 +37,7 @@ centerwelfare:
   url: http://apis.data.go.kr/B554287/NationalWelfareInformations/NationalWelfarelist
 
   client:
-    serviceKey: ${DATA_SERVICEKEY}
+    serviceKey: ${CENTER_WELFARE_SERVICEKEY}
 
 
 # 지자체 데이터
@@ -46,7 +46,7 @@ localwelfare:
   detailurl: http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfaredetailed
 
   client:
-    serviceKey: ${DATA_SERVICEKEY}
+    serviceKey: ${LOCAL_WELFARE_SERVICEKEY}
 
 
 
