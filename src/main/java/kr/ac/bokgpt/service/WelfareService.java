@@ -42,20 +42,6 @@ public class WelfareService {
     private final WelfareOfferWayRepository welfareOfferWayRepository;
     private final WelfareEnrollWayRepository welfareEnrollWayRepository;
 
-    public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(Long interestThemeId, Pageable pageable) {
-        Page<WelfareTitleDto> welfareTitleDtos = welfareRepository.findThemePageByThemeId(interestThemeId, pageable);
-        List<WelfareTitleDto> content = welfareTitleDtos.getContent();
-        List<Long> welfareIds = content
-                .stream()
-                .map(WelfareTitleDto::id)
-                .toList();
-        Map<Long, List<LifeCycleDto>> lifecyclesMap = lifeCycleRepository.findLifeCycleByWelfareId(welfareIds);
-        return new PageImpl<>(content.stream().map(
-                        dto -> WelfareTitleWithLifeCyclesDto.from(dto, lifecyclesMap.get(dto.id()))
-                )
-                .toList(), welfareTitleDtos.getPageable(), welfareTitleDtos.getTotalElements());
-    }
-
     public WelfareAllInfoDto searchWelfareDetail(Long welfareId) {
         WelfareDto welfareDto = welfareRepository.findByIdWithLocationAndSupportCycle(welfareId).map(WelfareDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("복지 정보가 없습니다 - welfareId: " + welfareId));
@@ -69,4 +55,28 @@ public class WelfareService {
 
         return WelfareAllInfoDto.from(welfareDto, homeTypeDtos, interestThemeDtos, lifeCycleDtos, targetCharacteristicDtos, offerWayDtos, enrollWayDtos);
     }
+
+
+    public Page<WelfareTitleWithLifeCyclesDto> searchWelfarePages(Pageable pageable) {
+        return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfarePages(pageable));
+    }
+
+    public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(Long interestThemeId, Pageable pageable) {
+        return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfarePagesByThemeId(interestThemeId, pageable));
+    }
+
+
+    private Page<WelfareTitleWithLifeCyclesDto> getWelfareTitleWithLifeCyclesDtos(Page<WelfareTitleDto> welfareTitleDtos) {
+        List<WelfareTitleDto> content = welfareTitleDtos.getContent();
+        List<Long> welfareIds = content
+                .stream()
+                .map(WelfareTitleDto::id)
+                .toList();
+        Map<Long, List<LifeCycleDto>> lifecyclesMap = lifeCycleRepository.findLifeCycleByWelfareId(welfareIds);
+        return new PageImpl<>(content.stream().map(
+                        dto -> WelfareTitleWithLifeCyclesDto.from(dto, lifecyclesMap.get(dto.id()))
+                )
+                .toList(), welfareTitleDtos.getPageable(), welfareTitleDtos.getTotalElements());
+    }
+
 }
