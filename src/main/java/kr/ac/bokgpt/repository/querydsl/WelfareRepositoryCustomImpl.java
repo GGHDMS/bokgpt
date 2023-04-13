@@ -3,7 +3,7 @@ package kr.ac.bokgpt.repository.querydsl;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import kr.ac.bokgpt.dto.welfare.WelfareTitleDto;
+import kr.ac.bokgpt.dto.WelfareTitleDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

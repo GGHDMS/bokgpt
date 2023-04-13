@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.dto.welfare;
+package kr.ac.bokgpt.dto;
 
 import lombok.Builder;
 

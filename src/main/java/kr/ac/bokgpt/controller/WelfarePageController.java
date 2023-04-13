@@ -1,6 +1,7 @@
 package kr.ac.bokgpt.controller;
 
-import kr.ac.bokgpt.dto.welfare.WelfareTitleWithLifeCyclesDto;
+import kr.ac.bokgpt.dto.WelfareAllInfoDto;
+import kr.ac.bokgpt.dto.WelfareTitleWithLifeCyclesDto;
 import kr.ac.bokgpt.service.WelfareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,11 @@ public class WelfarePageController {
     @GetMapping("/interest-themes/{interestThemeId}")
     public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(@PathVariable Long interestThemeId, Pageable pageable) {
         return welfareService.searchWelfareByInterestTheme(interestThemeId, pageable);
+    }
+
+    @GetMapping("/{welfareId}")
+    public WelfareAllInfoDto searchWelfareDetail(@PathVariable Long welfareId) {
+        return welfareService.searchWelfareDetail(welfareId);
     }
 
 }
