@@ -4,7 +4,7 @@ override:
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://bokgpt-db.cmtlresh7878.ap-northeast-2.rds.amazonaws.com/bokgpt?serverTimezone=Asia/Seoul
+    url: ${DB_ENDPOINT}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
