@@ -18,14 +18,18 @@ public class WelfarePageController {
 
     public final WelfareService welfareService;
 
-    @GetMapping("/interest-themes/{interestThemeId}")
-    public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(@PathVariable Long interestThemeId, Pageable pageable) {
-        return welfareService.searchWelfareByInterestTheme(interestThemeId, pageable);
-    }
-
     @GetMapping("/{welfareId}")
     public WelfareAllInfoDto searchWelfareDetail(@PathVariable Long welfareId) {
         return welfareService.searchWelfareDetail(welfareId);
     }
 
+    @GetMapping
+    public  Page<WelfareTitleWithLifeCyclesDto> searchWelfares(Pageable pageable) {
+        return welfareService.searchWelfarePages(pageable);
+    }
+
+    @GetMapping("/interest-themes/{interestThemeId}")
+    public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(@PathVariable Long interestThemeId, Pageable pageable) {
+        return welfareService.searchWelfareByInterestTheme(interestThemeId, pageable);
+    }
 }
