@@ -5,5 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface WelfareRepositoryCustom {
-    Page<WelfareTitleDto> findThemePageByThemeId(Long interestThemeId, Pageable pageable);
+    Page<WelfareTitleDto> findWelfarePages(Pageable pageable);
+
+    Page<WelfareTitleDto> findWelfarePagesByThemeId(Long interestThemeId, Pageable pageable);
 }
