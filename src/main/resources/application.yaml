@@ -30,7 +30,7 @@ youthwelfare:
   url: https://www.youthcenter.go.kr/opi/empList.do
 
   client:
-    serviceKey: ${YOUTH_SERVICEKEY}
+    serviceKey: ${YOUTH_WELFARE_SERVICEKEY}
 
 # 중앙부처 데이터
 centerwelfare:
