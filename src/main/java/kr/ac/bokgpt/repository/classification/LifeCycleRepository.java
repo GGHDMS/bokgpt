@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.repository;
+package kr.ac.bokgpt.repository.classification;
 
 import kr.ac.bokgpt.domain.classification.LifeCycle;
 import kr.ac.bokgpt.repository.querydsl.LifeCycleRepositoryCustom;
