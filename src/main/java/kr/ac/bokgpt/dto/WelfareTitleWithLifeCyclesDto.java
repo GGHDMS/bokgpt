@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.dto.welfare;
+package kr.ac.bokgpt.dto;
 
 import kr.ac.bokgpt.dto.classification.LifeCycleDto;
 import lombok.Builder;
