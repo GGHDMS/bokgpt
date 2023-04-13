@@ -11,7 +11,7 @@ import kr.ac.bokgpt.dto.classification.LifeCycleDto;
 import kr.ac.bokgpt.dto.classification.TargetCharacteristicDto;
 import kr.ac.bokgpt.dto.welfare.EnrollWayDto;
 import kr.ac.bokgpt.dto.welfare.OfferWayDto;
-import kr.ac.bokgpt.repository.LifeCycleRepository;
+import kr.ac.bokgpt.repository.classification.LifeCycleRepository;
 import kr.ac.bokgpt.repository.WelfareRepository;
 import kr.ac.bokgpt.repository.relationship.welfare.WelfareHomeTypeRepository;
 import kr.ac.bokgpt.repository.relationship.welfare.WelfareInterestThemeRepository;
