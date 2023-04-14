@@ -1,7 +1,10 @@
+override:
+  value: 'from application.yaml'
+  
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/bokgpt?serverTimezone=Asia/Seoul
+    url: ${DB_ENDPOINT}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
@@ -27,14 +30,14 @@ youthwelfare:
   url: https://www.youthcenter.go.kr/opi/empList.do
 
   client:
-    serviceKey: ${YOUTH_SERVICEKEY}
+    serviceKey: ${YOUTH_WELFARE_SERVICEKEY}
 
 # 중앙부처 데이터
 centerwelfare:
   url: http://apis.data.go.kr/B554287/NationalWelfareInformations/NationalWelfarelist
 
   client:
-    serviceKey: ${DATA_SERVICEKEY}
+    serviceKey: ${CENTER_WELFARE_SERVICEKEY}
 
 
 # 지자체 데이터
@@ -43,7 +46,7 @@ localwelfare:
   detailurl: http://apis.data.go.kr/B554287/LocalGovernmentWelfareInformations/LcgvWelfaredetailed
 
   client:
-    serviceKey: ${DATA_SERVICEKEY}
+    serviceKey: ${LOCAL_WELFARE_SERVICEKEY}
 
 
 

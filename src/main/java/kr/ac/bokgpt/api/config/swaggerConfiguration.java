@@ -15,10 +15,11 @@ public class swaggerConfiguration {
 
     @Bean
     public GroupedOpenApi welfareOpenApi(){
-        String[] paths = {"/welfare/**"};
+        String[] paths = {"/**"};
         return GroupedOpenApi.
                 builder()
                 .group("welfare_infomation")
+                .group("business")
                 .pathsToMatch(paths)
                 .build();
     }
