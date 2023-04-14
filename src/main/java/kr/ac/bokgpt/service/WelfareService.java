@@ -1,10 +1,24 @@
 package kr.ac.bokgpt.service;
 
+import jakarta.persistence.EntityNotFoundException;
+import kr.ac.bokgpt.dto.WelfareAllInfoDto;
+import kr.ac.bokgpt.dto.WelfareDto;
+import kr.ac.bokgpt.dto.WelfareTitleDto;
+import kr.ac.bokgpt.dto.WelfareTitleWithLifeCyclesDto;
+import kr.ac.bokgpt.dto.classification.HomeTypeDto;
+import kr.ac.bokgpt.dto.classification.InterestThemeDto;
 import kr.ac.bokgpt.dto.classification.LifeCycleDto;
-import kr.ac.bokgpt.dto.welfare.WelfareTitleDto;
-import kr.ac.bokgpt.dto.welfare.WelfareTitleWithLifeCyclesDto;
-import kr.ac.bokgpt.repository.LifeCycleRepository;
+import kr.ac.bokgpt.dto.classification.TargetCharacteristicDto;
+import kr.ac.bokgpt.dto.welfare.EnrollWayDto;
+import kr.ac.bokgpt.dto.welfare.OfferWayDto;
+import kr.ac.bokgpt.repository.classification.LifeCycleRepository;
 import kr.ac.bokgpt.repository.WelfareRepository;
+import kr.ac.bokgpt.repository.relationship.welfare.WelfareHomeTypeRepository;
+import kr.ac.bokgpt.repository.relationship.welfare.WelfareInterestThemeRepository;
+import kr.ac.bokgpt.repository.relationship.welfare.WelfareLifeCycleRepository;
+import kr.ac.bokgpt.repository.relationship.welfare.WelfareTargetCharacteristicRepository;
+import kr.ac.bokgpt.repository.welfare.WelfareEnrollWayRepository;
+import kr.ac.bokgpt.repository.welfare.WelfareOfferWayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,9 +35,38 @@ import java.util.Map;
 public class WelfareService {
     private final WelfareRepository welfareRepository;
     private final LifeCycleRepository lifeCycleRepository;
+    private final WelfareHomeTypeRepository welfareHomeTypeRepository;
+    private final WelfareInterestThemeRepository welfareInterestThemeRepository;
+    private final WelfareLifeCycleRepository welfareLifeCycleRepository;
+    private final WelfareTargetCharacteristicRepository welfareTargetCharacteristicRepository;
+    private final WelfareOfferWayRepository welfareOfferWayRepository;
+    private final WelfareEnrollWayRepository welfareEnrollWayRepository;
+
+    public WelfareAllInfoDto searchWelfareDetail(Long welfareId) {
+        WelfareDto welfareDto = welfareRepository.findByIdWithLocationAndSupportCycle(welfareId).map(WelfareDto::from)
+                .orElseThrow(() -> new EntityNotFoundException("복지 정보가 없습니다 - welfareId: " + welfareId));
+
+        List<HomeTypeDto> homeTypeDtos = welfareHomeTypeRepository.findAllHomeTypesByWelfareId(welfareId).stream().map(HomeTypeDto::from).toList();
+        List<InterestThemeDto> interestThemeDtos = welfareInterestThemeRepository.findAllInterestThemesByWelfareId(welfareId).stream().map(InterestThemeDto::from).toList();
+        List<LifeCycleDto> lifeCycleDtos = welfareLifeCycleRepository.findAllLifeCyclesByWelfareId(welfareId).stream().map(LifeCycleDto::from).toList();
+        List<TargetCharacteristicDto> targetCharacteristicDtos = welfareTargetCharacteristicRepository.findAllTargetCharacteristicsByWelfareId(welfareId).stream().map(TargetCharacteristicDto::from).toList();
+        List<OfferWayDto> offerWayDtos = welfareOfferWayRepository.findAllOfferWaysByWelfareId(welfareId).stream().map(OfferWayDto::from).toList();
+        List<EnrollWayDto> enrollWayDtos = welfareEnrollWayRepository.findAllEnrollWaysByWelfareId(welfareId).stream().map(EnrollWayDto::from).toList();
+
+        return WelfareAllInfoDto.from(welfareDto, homeTypeDtos, interestThemeDtos, lifeCycleDtos, targetCharacteristicDtos, offerWayDtos, enrollWayDtos);
+    }
+
+
+    public Page<WelfareTitleWithLifeCyclesDto> searchWelfarePages(Pageable pageable) {
+        return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfarePages(pageable));
+    }
 
     public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(Long interestThemeId, Pageable pageable) {
-        Page<WelfareTitleDto> welfareTitleDtos = welfareRepository.findThemePageByThemeId(interestThemeId, pageable);
+        return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfarePagesByThemeId(interestThemeId, pageable));
+    }
+
+
+    private Page<WelfareTitleWithLifeCyclesDto> getWelfareTitleWithLifeCyclesDtos(Page<WelfareTitleDto> welfareTitleDtos) {
         List<WelfareTitleDto> content = welfareTitleDtos.getContent();
         List<Long> welfareIds = content
                 .stream()
@@ -35,4 +78,5 @@ public class WelfareService {
                 )
                 .toList(), welfareTitleDtos.getPageable(), welfareTitleDtos.getTotalElements());
     }
+
 }
