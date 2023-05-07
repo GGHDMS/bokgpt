@@ -52,7 +52,7 @@ public class Welfare {
     private String supportedBy;
     @Column(length = 2000)
     private String selectionCriteria;
-    @Column(length = 2000)
+    @Column(length = 3000)
     private String serviceContent;
     private LocalDate lastModifiedAt;
     private String detailLink;
