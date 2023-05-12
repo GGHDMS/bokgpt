@@ -1,5 +1,6 @@
 package kr.ac.bokgpt.repository;
 
+import kr.ac.bokgpt.domain.Member;
 import kr.ac.bokgpt.domain.Welfare;
 import kr.ac.bokgpt.repository.querydsl.WelfareRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import java.util.Optional;
 public interface WelfareRepository extends WelfareRepositoryCustom, JpaRepository<Welfare, Long> {
     @Query("select w from Welfare w join fetch w.location join fetch w.supportCycle where w.id = :id")
     Optional<Welfare> findByIdWithLocationAndSupportCycle(@Param("id") Long id);
+
+    Optional<Member> findByEmailAndProvider(String email, String provider);
 }

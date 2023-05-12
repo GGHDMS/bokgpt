@@ -3,6 +3,7 @@ package kr.ac.bokgpt.domain;
 import jakarta.persistence.*;
 import kr.ac.bokgpt.domain.classification.LifeCycle;
 import kr.ac.bokgpt.domain.classification.Location;
+import kr.ac.bokgpt.security.domain.Role;
 import lombok.*;
 
 import java.util.Objects;
@@ -27,8 +28,21 @@ public class Member extends AuditingFields{
     @JoinColumn(name = "location_id")
     private Location location;
 
+    @Column(name = "email", nullable = false)
     private String email;
-    private String nickname;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name="provider")
+    private String provider;
+
+    @Column(name="gender")
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public boolean equals(Object o) {
@@ -42,5 +56,13 @@ public class Member extends AuditingFields{
         return Objects.hash(this.getId());
     }
 
+    public Member update(String name){
+        this.name= name;
+        return this;
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
 
 }

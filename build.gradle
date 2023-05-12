@@ -37,6 +37,15 @@ dependencies {
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.security:spring-security-test")
+    //oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    //test 용 thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 test {
