@@ -39,13 +39,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     //security
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.security:spring-security-test")
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
     //oauth2
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
     //test 용 thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 }
 
 test {

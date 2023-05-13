@@ -13,5 +13,4 @@ public interface WelfareRepository extends WelfareRepositoryCustom, JpaRepositor
     @Query("select w from Welfare w join fetch w.location join fetch w.supportCycle where w.id = :id")
     Optional<Welfare> findByIdWithLocationAndSupportCycle(@Param("id") Long id);
 
-    Optional<Member> findByEmailAndProvider(String email, String provider);
 }

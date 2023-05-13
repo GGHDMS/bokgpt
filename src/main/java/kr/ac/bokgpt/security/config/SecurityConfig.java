@@ -36,7 +36,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/login/**").permitAll()
                 .and()
-                .oauth2Login().userInfoEndpoint().userService(customOAuthService);
+                .oauth2Login().userInfoEndpoint().userService(customOAuthService)
+                .and().defaultSuccessUrl("/login/kakao");
+
 
         return http.build();
     }

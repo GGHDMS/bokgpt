@@ -35,4 +35,21 @@ public class OAuthController {
         return "accessDenied";
     }
 
+    @GetMapping("/login/kakao")
+    @ResponseBody
+    public String kakao(){
+        return "hello";
+    }
+
+    @GetMapping("/login/naver")
+    @ResponseBody
+    public String naver(){
+        return "hello";
+    }
+
+//    @GetMapping("/login/google")
+//    @ResponseBody
+//    public String hello(){
+//        return "google";
+//    }
 }

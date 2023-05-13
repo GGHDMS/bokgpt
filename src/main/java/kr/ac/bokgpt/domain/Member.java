@@ -37,10 +37,6 @@ public class Member extends AuditingFields{
     @Column(name="provider")
     private String provider;
 
-    @Column(name="gender")
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
