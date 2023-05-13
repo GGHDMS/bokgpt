@@ -2,6 +2,8 @@ override:
   value: 'from application.yaml'
   
 spring:
+  profiles:
+    include: oauth
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: ${DB_ENDPOINT}
@@ -17,6 +19,12 @@ spring:
     open-in-view: false
   sql.init.mode: always
 
+#thymeleaf
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    prefix: /templates/
+    suffix: .html
 
 
   #swagger
@@ -47,6 +55,8 @@ localwelfare:
 
   client:
     serviceKey: ${LOCAL_WELFARE_SERVICEKEY}
+
+
 
 
 
