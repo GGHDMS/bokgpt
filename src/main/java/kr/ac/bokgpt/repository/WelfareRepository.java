@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface WelfareRepository extends WelfareRepositoryCustom, JpaRepository<Welfare, Long> {
     @Query("select w from Welfare w join fetch w.location join fetch w.supportCycle where w.id = :id")
     Optional<Welfare> findByIdWithLocationAndSupportCycle(@Param("id") Long id);
+
 }

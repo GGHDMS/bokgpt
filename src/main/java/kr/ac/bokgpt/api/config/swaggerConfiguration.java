@@ -20,6 +20,7 @@ public class swaggerConfiguration {
                 builder()
                 .group("welfare_infomation")
                 .group("business")
+                .group("business_security")
                 .pathsToMatch(paths)
                 .build();
     }
