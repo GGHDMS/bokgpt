@@ -136,6 +136,14 @@ values ('일반'),
        ('아동위탁가정'),
        ('외국');
 
+-- member
+insert into member (created_at, created_by, modified_at,
+                    modified_by, email, gender, name,
+                    password, role_type, life_cycle_id, location_id)
+values (now(), 'bokgpt', now(),
+        'bokgpt', 'bokgpt@bokgpt.com', 'MALE', 'bokgpt',
+        '$2a$10$CNOzfaQoDUzYQ3nYsgwS0eujJOcEoesBYR8QHs6siI1HJaaRSjiQ2', 'USER', 1, 1);
+
 
 -- welfare
 INSERT INTO welfare (welfare_id, department, detail_link, end_date, last_modified_at, selection_criteria,
