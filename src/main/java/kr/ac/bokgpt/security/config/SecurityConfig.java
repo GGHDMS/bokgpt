@@ -1,59 +1,81 @@
 package kr.ac.bokgpt.security.config;
 
-
-import kr.ac.bokgpt.security.exception.MemberAuthenticationFailureHandler;
-import kr.ac.bokgpt.security.exception.MemberAuthenticationSuccessHandler;
-import kr.ac.bokgpt.security.service.MemberProvider;
+import kr.ac.bokgpt.jwt.JwtAccessDeniedHandler;
+import kr.ac.bokgpt.jwt.JwtAuthenticationEntryPoint;
+import kr.ac.bokgpt.jwt.JwtSecurityConfig;
+import kr.ac.bokgpt.jwt.TokenProvider;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
-@Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
+@Configuration
 public class SecurityConfig {
+    private final TokenProvider tokenProvider;
+    private final CorsFilter corsFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-    private final MemberAuthenticationSuccessHandler memberAuthenticationSuccessHandler;
-    private final MemberAuthenticationFailureHandler memberAuthenticationFailureHandler;
 
-    public SecurityConfig(MemberAuthenticationSuccessHandler memberAuthenticationSuccessHandler, MemberAuthenticationFailureHandler memberAuthenticationFailureHandler) {
-        this.memberAuthenticationSuccessHandler = memberAuthenticationSuccessHandler;
-        this.memberAuthenticationFailureHandler = memberAuthenticationFailureHandler;
+    public SecurityConfig(
+            TokenProvider tokenProvider,
+            CorsFilter corsFilter,
+            JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+            JwtAccessDeniedHandler jwtAccessDeniedHandler
+    ) {
+        this.tokenProvider = tokenProvider;
+        this.corsFilter = corsFilter;
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    public AuthenticationProvider authenticationProvider(){
-        return new MemberProvider();
-    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http
-                .authorizeHttpRequests(request->
-                        request
-                                .requestMatchers("/user/mypage").hasRole("ROLE_USER")
-                                .anyRequest().permitAll()
-                )
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .csrf().disable()
-                .formLogin()
-                .permitAll()
-                .defaultSuccessUrl("/",false)
-                .successHandler(memberAuthenticationSuccessHandler)
-                .failureHandler(memberAuthenticationFailureHandler)
+
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+
+                // enable h2-console
                 .and()
-                .logout(logout-> logout.logoutSuccessUrl("/"))
-                .exceptionHandling(e->e.accessDeniedPage("/access-denied"));
+                .headers()
+                .frameOptions()
+                .sameOrigin()
 
-        return http.build();
+                // 세션을 사용하지 않기 때문에 STATELESS로 설정
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/login", "/signup", "/signup/idCheck").permitAll()
+                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                .anyRequest().authenticated()
+
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
+
+        return httpSecurity.build();
     }
-
 }
