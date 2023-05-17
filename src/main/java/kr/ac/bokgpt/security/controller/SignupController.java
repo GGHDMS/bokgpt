@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,12 +37,15 @@ public class SignupController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
     })
-
-    @PostMapping("/signup")
-    public ResponseEntity<MemberDto> signup(
+    @PostMapping("/members")
+    public ResponseEntity<String> signup(
             @Valid @RequestBody signupDto signupDto
     ) {
-        return ResponseEntity.ok(memberSignupService.signup(signupDto));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(memberSignupService.signup(signupDto))
+                .toUri();
+        return ResponseEntity.created(location).body("Success");
     }
 
     @Tag(name="business_security")
@@ -50,18 +56,18 @@ public class SignupController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
     })
-    @PostMapping("/signup/idCheck")
+    @PostMapping("/members/idCheck")
     public ResponseEntity<Boolean> checkEmail(@RequestBody String email){
         return ResponseEntity.ok(memberSignupService.emailCheck(email));
     }
 
-    @GetMapping("/member")
+    @GetMapping("/members")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<MemberDto> getMyUserInfo(HttpServletRequest request) {
         return ResponseEntity.ok(memberSignupService.getMyMemberWithAuthorities());
     }
 
-    @GetMapping("/member/{email}")
+    @GetMapping("/members/{email}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<MemberDto> getUserInfo(@PathVariable String email) {
         return ResponseEntity.ok(memberSignupService.getMemberWithAuthorities(email));
