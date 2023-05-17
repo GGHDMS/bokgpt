@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.security.exception;
+package kr.ac.bokgpt.security.handler;
 
 
 import jakarta.servlet.ServletException;
