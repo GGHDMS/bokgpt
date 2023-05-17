@@ -66,7 +66,7 @@ public class MemberSignupService {
     @Transactional(readOnly = true)
     public MemberDto getMyMemberWithAuthorities() {
         return MemberDto.from(
-                SecurityUtil.getCurrentUsername()
+                SecurityUtil.getCurrentEmail()
                         .flatMap(memberRepository::findOneWithAuthoritiesByEmail)
                         .orElseThrow(() -> new NotFoundMemberException("Member not found"))
         );
