@@ -4,7 +4,6 @@ import kr.ac.bokgpt.jwt.JwtAccessDeniedHandler;
 import kr.ac.bokgpt.jwt.JwtAuthenticationEntryPoint;
 import kr.ac.bokgpt.jwt.JwtSecurityConfig;
 import kr.ac.bokgpt.jwt.TokenProvider;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -63,9 +62,8 @@ public class SecurityConfig {
 
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/login", "/members", "/members/idCheck").permitAll()
-                .requestMatchers(PathRequest.toH2Console()).permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/members/me").authenticated()
+                .anyRequest().permitAll()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
