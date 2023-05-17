@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kr.ac.bokgpt.dto.MemberDto;
 import kr.ac.bokgpt.security.dto.signupDto;
@@ -61,9 +60,17 @@ public class SignupController {
         return ResponseEntity.ok(memberSignupService.emailCheck(email));
     }
 
-    @GetMapping("/members")
+    @Tag(name="business_security")
+    @Operation(summary = "myInfo", description = "내 정보")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK !!"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
+    })
+    @GetMapping("/members/me")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<MemberDto> getMyUserInfo(HttpServletRequest request) {
+    public ResponseEntity<MemberDto> getMyMemberInfo() {
         return ResponseEntity.ok(memberSignupService.getMyMemberWithAuthorities());
     }
 
