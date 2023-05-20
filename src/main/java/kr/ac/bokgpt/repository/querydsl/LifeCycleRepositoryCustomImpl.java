@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.ac.bokgpt.dto.classification.LifeCycleDto;
 import kr.ac.bokgpt.dto.classification.LifeCycleWithWelfareIdDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import static kr.ac.bokgpt.domain.QWelfare.welfare;
 import static kr.ac.bokgpt.domain.classification.QLifeCycle.lifeCycle;
 import static kr.ac.bokgpt.domain.relationship.welfare.QWelfareLifeCycle.welfareLifeCycle;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LifeCycleRepositoryCustomImpl implements LifeCycleRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
@@ -29,6 +29,7 @@ public class LifeCycleRepositoryCustomImpl implements LifeCycleRepositoryCustom 
                 .join(welfareLifeCycle.lifeCycle, lifeCycle)
                 .where(welfareLifeCycle.welfare.id.in(welfareId))
                 .fetch()) {
+
 
             Long welfareIdDto = dto.welfareId();
             if (result.containsKey(welfareIdDto)) {

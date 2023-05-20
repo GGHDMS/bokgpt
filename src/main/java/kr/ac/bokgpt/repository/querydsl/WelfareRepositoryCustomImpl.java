@@ -5,7 +5,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.ac.bokgpt.dto.WelfareTitleDto;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +19,7 @@ import static com.querydsl.core.types.Order.DESC;
 import static kr.ac.bokgpt.domain.QWelfare.welfare;
 import static kr.ac.bokgpt.domain.relationship.welfare.QWelfareInterestTheme.welfareInterestTheme;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class WelfareRepositoryCustomImpl implements WelfareRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
