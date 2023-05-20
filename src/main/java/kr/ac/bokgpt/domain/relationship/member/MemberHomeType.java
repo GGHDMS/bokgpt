@@ -25,4 +25,8 @@ public class MemberHomeType {
     @JoinColumn(name = "home_type_id")
     private HomeType homeType;
 
+    public void updateHomeType(HomeType homeType) {
+        this.homeType = homeType;
+    }
+
 }
