@@ -22,7 +22,7 @@ import java.util.Collections;
 
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberSignupService {
     private final MemberRepository memberRepository;
@@ -76,7 +76,6 @@ public class MemberSignupService {
         return MemberDto.from(member);
     }
 
-    @Transactional(readOnly = true)
     public MemberDto getMyMemberWithAuthorities() {
         return MemberDto.from(
                 SecurityUtil.getCurrentEmail()

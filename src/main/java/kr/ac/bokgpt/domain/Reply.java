@@ -28,6 +28,7 @@ public class Reply extends AuditingFields{
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder.Default
     @OrderBy("createdAt ASC")
     @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL)
     private Set<Reply> childComments = new LinkedHashSet<>();
