@@ -16,4 +16,12 @@ public record LocationDto(
                 .detail(entity.getDetail())
                 .build();
     }
+
+    public Location toEntity() {
+        return Location.builder()
+                .id(id)
+                .main(main)
+                .detail(detail)
+                .build();
+    }
 }

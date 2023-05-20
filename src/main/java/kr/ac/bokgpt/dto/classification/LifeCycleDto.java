@@ -21,4 +21,11 @@ public record LifeCycleDto(
                 .lifeTime(lifeCycleWithWelfareIdDto.lifeTime())
                 .build();
     }
+
+    public LifeCycle toEntity() {
+        return LifeCycle.builder()
+                .id(id)
+                .lifeTime(lifeTime)
+                .build();
+    }
 }
