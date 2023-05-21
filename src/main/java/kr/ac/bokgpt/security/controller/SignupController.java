@@ -68,11 +68,12 @@ public class SignupController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR !!")
     })
-    @GetMapping("/members/me")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<MemberDto> getMyMemberInfo() {
-        return ResponseEntity.ok(memberSignupService.getMyMemberWithAuthorities());
-    }
+
+//    @GetMapping("/members/me")
+//    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+//    public ResponseEntity<MemberDto> getMyMemberInfo() {
+//        return ResponseEntity.ok(memberSignupService.getMyMemberWithAuthorities());
+//    }
 
     @GetMapping("/members/{email}")
     @PreAuthorize("hasAnyRole('ADMIN')")

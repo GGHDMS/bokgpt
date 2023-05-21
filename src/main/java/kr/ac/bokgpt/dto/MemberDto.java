@@ -5,11 +5,7 @@ import kr.ac.bokgpt.domain.Gender;
 import kr.ac.bokgpt.domain.Member;
 import kr.ac.bokgpt.dto.classification.LifeCycleDto;
 import kr.ac.bokgpt.dto.classification.LocationDto;
-import kr.ac.bokgpt.security.dto.AuthorityDto;
 import lombok.Builder;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Builder
 public record MemberDto(
@@ -20,8 +16,7 @@ public record MemberDto(
         String password,
         Gender gender,
         LifeCycleDto lifeCycle,
-        LocationDto location,
-        Set<AuthorityDto> authoritiesDtos
+        LocationDto location
 ) {
     public static MemberDto from(Member member) {
         return MemberDto.builder()
@@ -32,7 +27,6 @@ public record MemberDto(
                 .gender(member.getGender())
                 .lifeCycle(LifeCycleDto.from(member.getLifeCycle()))
                 .location(LocationDto.from(member.getLocation()))
-                .authoritiesDtos(member.getAuthorities().stream().map(AuthorityDto::from).collect(Collectors.toSet()))
                 .build();
     }
 }

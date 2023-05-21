@@ -25,4 +25,8 @@ public class WelfareHomeType {
     @JoinColumn(name = "home_type_id")
     private HomeType homeType;
 
+    public void addWelfare(Welfare welfare) {
+        this.welfare = welfare;
+        welfare.getWelfareHomeTypes().add(this);
+    }
 }

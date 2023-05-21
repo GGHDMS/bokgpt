@@ -1,7 +1,8 @@
 package kr.ac.bokgpt.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import kr.ac.bokgpt.domain.classification.LifeCycle;
@@ -17,10 +18,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Member extends AuditingFields{
+public class Member{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     @Column(name = "member_id")
     private Long id;
 
@@ -32,10 +32,11 @@ public class Member extends AuditingFields{
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @Column(name = "email", unique = true)
-    @NotNull
+    @Email
+    @Column(name = "email", unique = true, updatable = false)
     private String email;
 
+    @NotBlank
     @Column(name = "name")
     private String name;
 
@@ -43,10 +44,9 @@ public class Member extends AuditingFields{
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @JsonIgnore
-    @Column(name="password",length = 128)
     @NotNull
     @Size(max= 128)
+    @Column(name="password",length = 128)
     private String password;
 
     @Column(name = "activated")
@@ -58,6 +58,13 @@ public class Member extends AuditingFields{
             joinColumns = {@JoinColumn(name = "member_id", referencedColumnName = "member_id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
     private Set<Authority> authorities;
+
+    public void updateMember(String name, Gender gender, LifeCycle lifeCycle, Location location) {
+        this.name = name;
+        this.gender = gender;
+        this.lifeCycle = lifeCycle;
+        this.location = location;
+    }
 
     @Override
     public boolean equals(Object o) {

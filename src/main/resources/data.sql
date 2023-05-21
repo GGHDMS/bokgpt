@@ -137,22 +137,30 @@ values ('일반'),
        ('외국');
 
 -- member
-insert into member (created_at, created_by, modified_at,
-                    modified_by, email, gender, name,
+insert into member (email, gender, name,
                     password, life_cycle_id, location_id, activated)
-values (now(), 'bokgpt', now(),
-        'bokgpt', 'bokgpt@bokgpt.com', 'MALE', 'bokgpt',
+values ('bokgpt@bokgpt.com', 'MALE', 'bokgpt',
         '$2a$10$CNOzfaQoDUzYQ3nYsgwS0eujJOcEoesBYR8QHs6siI1HJaaRSjiQ2', 1, 1, 1);
 
 -- insert into "user" (username, password, nickname, activated) values ('admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'admin', 1);
 -- insert into "user" (username, password, nickname, activated) values ('user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC', 'user', 1);
 
-insert into authority (authority_name) values ('ROLE_USER');
-insert into authority (authority_name) values ('ROLE_ADMIN');
+insert into authority (authority_name)
+values ('ROLE_USER');
+insert into authority (authority_name)
+values ('ROLE_ADMIN');
 
-insert into member_authority (member_id, authority_name) values (1, 'ROLE_USER');
-insert into member_authority (member_id, authority_name) values (1, 'ROLE_ADMIN');
+insert into member_authority (member_id, authority_name)
+values (1, 'ROLE_USER');
+insert into member_authority (member_id, authority_name)
+values (1, 'ROLE_ADMIN');
 -- insert into member_authority (member_id, authority_name) values (2, 'ROLE_USER');
+
+
+-- member_home_type
+
+insert into member_home_type(member_id, home_type_id)
+values (1, 1);
 
 -- welfare
 INSERT INTO welfare (welfare_id, department, detail_link, end_date, last_modified_at, selection_criteria,
