@@ -1,6 +1,7 @@
 package kr.ac.bokgpt.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import kr.ac.bokgpt.domain.Gender;
 import kr.ac.bokgpt.dto.WelfareAllInfoDto;
 import kr.ac.bokgpt.dto.WelfareDto;
 import kr.ac.bokgpt.dto.WelfareTitleDto;
@@ -11,8 +12,8 @@ import kr.ac.bokgpt.dto.classification.LifeCycleDto;
 import kr.ac.bokgpt.dto.classification.TargetCharacteristicDto;
 import kr.ac.bokgpt.dto.welfare.EnrollWayDto;
 import kr.ac.bokgpt.dto.welfare.OfferWayDto;
-import kr.ac.bokgpt.repository.classification.LifeCycleRepository;
 import kr.ac.bokgpt.repository.WelfareRepository;
+import kr.ac.bokgpt.repository.classification.LifeCycleRepository;
 import kr.ac.bokgpt.repository.relationship.welfare.WelfareHomeTypeRepository;
 import kr.ac.bokgpt.repository.relationship.welfare.WelfareInterestThemeRepository;
 import kr.ac.bokgpt.repository.relationship.welfare.WelfareLifeCycleRepository;
@@ -42,6 +43,10 @@ public class WelfareService {
     private final WelfareOfferWayRepository welfareOfferWayRepository;
     private final WelfareEnrollWayRepository welfareEnrollWayRepository;
 
+    public Page<WelfareTitleWithLifeCyclesDto> searchWelfares(Gender gender, Long lifeCycleId, Long locationId, Long homeTypeId, Long interestThemeId, Pageable pageable) {
+        return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfaresByClassifications(gender, lifeCycleId, locationId, homeTypeId, interestThemeId, pageable));
+    }
+
     public WelfareAllInfoDto searchWelfareDetail(Long welfareId) {
         WelfareDto welfareDto = welfareRepository.findByIdWithLocationAndSupportCycle(welfareId).map(WelfareDto::from)
                 .orElseThrow(() -> new EntityNotFoundException("복지 정보가 없습니다 - welfareId: " + welfareId));
@@ -56,15 +61,9 @@ public class WelfareService {
         return WelfareAllInfoDto.from(welfareDto, homeTypeDtos, interestThemeDtos, lifeCycleDtos, targetCharacteristicDtos, offerWayDtos, enrollWayDtos);
     }
 
-
-    public Page<WelfareTitleWithLifeCyclesDto> searchWelfarePages(Pageable pageable) {
-        return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfarePages(pageable));
-    }
-
     public Page<WelfareTitleWithLifeCyclesDto> searchWelfareByInterestTheme(Long interestThemeId, Pageable pageable) {
         return getWelfareTitleWithLifeCyclesDtos(welfareRepository.findWelfarePagesByThemeId(interestThemeId, pageable));
     }
-
 
     private Page<WelfareTitleWithLifeCyclesDto> getWelfareTitleWithLifeCyclesDtos(Page<WelfareTitleDto> welfareTitleDtos) {
         List<WelfareTitleDto> content = welfareTitleDtos.getContent();
