@@ -24,4 +24,9 @@ public class WelfareTargetCharacteristic {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_characteristic_id")
     private TargetCharacteristic targetCharacteristic;
+
+    public void addWelfare(Welfare welfare) {
+        this.welfare = welfare;
+        welfare.getWelfareTargetCharacteristics().add(this);
+    }
 }

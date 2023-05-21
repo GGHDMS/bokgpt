@@ -2,8 +2,10 @@ package kr.ac.bokgpt.domain;
 
 import jakarta.persistence.*;
 import kr.ac.bokgpt.domain.classification.Location;
+import kr.ac.bokgpt.domain.relationship.welfare.WelfareHomeType;
 import kr.ac.bokgpt.domain.relationship.welfare.WelfareInterestTheme;
 import kr.ac.bokgpt.domain.relationship.welfare.WelfareLifeCycle;
+import kr.ac.bokgpt.domain.relationship.welfare.WelfareTargetCharacteristic;
 import kr.ac.bokgpt.domain.welfare.SupportCycle;
 import lombok.*;
 
@@ -39,6 +41,14 @@ public class Welfare {
     @Builder.Default
     @OneToMany(mappedBy = "welfare")
     private List<WelfareLifeCycle> welfareLifeCycles = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "welfare")
+    private List<WelfareHomeType> welfareHomeTypes = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "welfare")
+    private List<WelfareTargetCharacteristic> welfareTargetCharacteristics = new ArrayList<>();
 
 
     private String serviceTitle;
