@@ -3,7 +3,6 @@ package kr.ac.bokgpt.repository.querydsl;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import kr.ac.bokgpt.domain.Gender;
@@ -54,16 +53,14 @@ public class WelfareRepositoryCustomImpl implements WelfareRepositoryCustom {
         }
 
         if (locationId != 0) {
-            BooleanExpression locationCondition = location.id.eq(locationId)
-                    .and(locationId != 1 ? location.id.eq(1L) : Expressions.TRUE);
 
             query
                     .join(welfare.location, location)
-                    .on(locationCondition);
+                    .on(location.id.in(locationId, 1L));
 
             countQuery
                     .join(welfare.location, location)
-                    .on(locationCondition);
+                    .on(location.id.in(locationId, 1L));
         }
 
         if (homeTypeId != 0) {
