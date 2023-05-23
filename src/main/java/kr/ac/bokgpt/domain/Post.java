@@ -3,10 +3,12 @@ package kr.ac.bokgpt.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Builder
-@ToString(exclude = {"member", "welfare"})
+@ToString(exclude = {"member", "replies"})
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,11 +23,15 @@ public class Post extends AuditingFields{
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "welfare_id")
-    private Welfare welfare;
+    @Column(nullable = false)
+    private String title;
 
-    private String tile;
+    @Column(nullable = false, length = 10000)
+    private String content;
+
+    @OrderBy("createdAt DESC")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private final Set<Reply> replies = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o) {

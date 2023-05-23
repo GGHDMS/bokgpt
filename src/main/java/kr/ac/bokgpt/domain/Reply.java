@@ -34,6 +34,7 @@ public class Reply extends AuditingFields{
     private Set<Reply> childComments = new LinkedHashSet<>();
 
     private Long parentCommentId;
+
     private String content;
 
     @Override
