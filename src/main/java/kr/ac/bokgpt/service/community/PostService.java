@@ -4,7 +4,7 @@ package kr.ac.bokgpt.service.community;
 import kr.ac.bokgpt.domain.Member;
 import kr.ac.bokgpt.domain.community.Post;
 import kr.ac.bokgpt.dto.commmunity.request.PostRequest;
-import kr.ac.bokgpt.dto.commmunity.response.PostWithCommentsResponseDto;
+import kr.ac.bokgpt.dto.commmunity.PostWithCommentsDto;
 import kr.ac.bokgpt.repository.MemberRepository;
 import kr.ac.bokgpt.repository.community.PostRepository;
 import kr.ac.bokgpt.security.exception.MemberNotFoundException;
@@ -21,10 +21,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
 
-
-
-    public PostWithCommentsResponseDto searchPost(Long postId){
-        return PostWithCommentsResponseDto.from(postRepository
+    public PostWithCommentsDto searchPost(Long postId){
+        return PostWithCommentsDto.from(postRepository
                 .findById(postId)
                 .orElseThrow(PostNotFoundException::new));
     }
@@ -37,11 +35,11 @@ public class PostService {
     }
 
     @Transactional
-    public Long updatePost(Long postId, PostRequest postRequest){
+    public void updatePost(Long postId, PostRequest postRequest){
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         post.updatePost(postRequest);
-        return post.getId();
     }
+
     @Transactional
     public String deletePost(Long postId){
         try {
