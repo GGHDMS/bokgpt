@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.dto.commmunity.response;
+package kr.ac.bokgpt.dto.commmunity;
 
 import kr.ac.bokgpt.domain.community.Comment;
 import lombok.Builder;
@@ -6,19 +6,19 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record CommentResponseDto(
+public record CommentDto(
         Long id,
-        String contents,
-        MemberResponse memberResponse,
+        String content,
+        MemberDto memberDto,
         Long parentCommentId,
         LocalDateTime createdAt
 ) {
-    public static CommentResponseDto from(Comment comment){
-        return CommentResponseDto.builder()
+    public static CommentDto from(Comment comment){
+        return CommentDto.builder()
                 .id(comment.getId())
                 .parentCommentId(comment.getParentCommentId())
-                .memberResponse(MemberResponse.from(comment.getMember()))
-                .contents(comment.getContent())
+                .memberDto(MemberDto.from(comment.getMember()))
+                .content(comment.getContent())
                 .createdAt(comment.getCreatedAt())
                 .build();
     }

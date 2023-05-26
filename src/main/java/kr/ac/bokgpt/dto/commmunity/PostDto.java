@@ -1,4 +1,4 @@
-package kr.ac.bokgpt.dto.commmunity.response;
+package kr.ac.bokgpt.dto.commmunity;
 
 import kr.ac.bokgpt.domain.community.Post;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record PostResponseDto(
+public record PostDto(
         Long id,
         String title,
         String nickname,
@@ -15,13 +15,13 @@ public record PostResponseDto(
 
 ) {
 
-    public static PostResponseDto from(Post post){
+    public static PostDto from(Post post){
         String nickname = post.getMember().getName();
         if(nickname == null){
             nickname=post.getMember().getEmail();
         }
 
-        return PostResponseDto.builder()
+        return PostDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
                 .nickname(nickname)
