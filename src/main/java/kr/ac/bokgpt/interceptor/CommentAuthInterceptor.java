@@ -13,6 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Component
@@ -21,16 +22,22 @@ public class CommentAuthInterceptor implements HandlerInterceptor {
     private final CommentRepository commentRepository;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         String httpMethod = request.getMethod();
-        if(httpMethod.equals("POST") || httpMethod.equals("DELETE") || httpMethod.equals("PUT")){
-            String curruntEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
-            Map<?,?> pathVariables= (Map<?,?>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            Long commentId = Long.parseLong((String)pathVariables.get("commentId"));
+
+        if (isRestrictedMethod(httpMethod)) {
+            String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
+            Long commentId = extractPostId(request);
+
             Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
-            return curruntEmail.equals(comment.getCreatedBy());
+            String commentWriter = comment.getCreatedBy();
+
+            if (!commentWriter.equals(currentEmail)) {
+                sendForbiddenResponse(response);
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -41,5 +48,22 @@ public class CommentAuthInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+    }
+
+    private boolean isRestrictedMethod(String httpMethod) {
+        return httpMethod.equals("POST") || httpMethod.equals("DELETE") || httpMethod.equals("PUT");
+    }
+
+    private Long extractPostId(HttpServletRequest request) {
+        Map<?, ?> pathVariables = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+        String postIdString = (String) pathVariables.get("commentId");
+        return Long.parseLong(postIdString);
+    }
+
+    private void sendForbiddenResponse(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().println("NOT AUTHORIZE!!");
     }
 }

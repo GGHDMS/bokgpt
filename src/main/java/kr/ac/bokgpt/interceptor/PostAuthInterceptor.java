@@ -13,6 +13,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Component
@@ -25,16 +26,15 @@ public class PostAuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String httpMethod = request.getMethod();
 
-        if(httpMethod.equals("POST") || httpMethod.equals("DELETE") || httpMethod.equals("PUT")) {
-            String curruntEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
-            Map<?, ?> pathVariables = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-            Long postId = Long.parseLong((String)pathVariables.get("postId"));
+        if (isRestrictedMethod(httpMethod)) {
+            String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
+            Long postId = extractPostId(request);
 
             Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
             String postWriter = post.getCreatedBy();
 
-            if(!postWriter.equals(curruntEmail)){
-                response.getOutputStream().println("NOT AUTHORIZE!!");
+            if (!postWriter.equals(currentEmail)) {
+                sendForbiddenResponse(response);
                 return false;
             }
         }
@@ -49,5 +49,22 @@ public class PostAuthInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
+    }
+
+    private boolean isRestrictedMethod(String httpMethod) {
+        return httpMethod.equals("POST") || httpMethod.equals("DELETE") || httpMethod.equals("PUT");
+    }
+
+    private Long extractPostId(HttpServletRequest request) {
+        Map<?, ?> pathVariables = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+        String postIdString = (String) pathVariables.get("postId");
+        return Long.parseLong(postIdString);
+    }
+
+    private void sendForbiddenResponse(HttpServletResponse response) throws IOException {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().println("NOT AUTHORIZE!!");
     }
 }
