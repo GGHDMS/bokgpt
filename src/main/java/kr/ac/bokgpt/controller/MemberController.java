@@ -47,9 +47,9 @@ public class MemberController {
     })
     @PutMapping("/members/me")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<Void> updateMemberInfo(@Valid @RequestBody MemberRequest memberRequest) {
+    public ResponseEntity<String> updateMemberInfo(@Valid @RequestBody MemberRequest memberRequest) {
         memberService.updateMemberInfo(memberRequest);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Success");
     }
 
     @Tag(name="business_memberInfo")

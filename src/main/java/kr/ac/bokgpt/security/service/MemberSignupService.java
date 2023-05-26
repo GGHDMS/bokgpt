@@ -11,7 +11,7 @@ import kr.ac.bokgpt.repository.classification.LocationRepository;
 import kr.ac.bokgpt.repository.relationship.member.MemberHomeTypeRepository;
 import kr.ac.bokgpt.security.dto.signupDto;
 import kr.ac.bokgpt.security.exception.DuplicateMemberException;
-import kr.ac.bokgpt.security.exception.NotFoundMemberException;
+import kr.ac.bokgpt.security.exception.MemberNotFoundException;
 import kr.ac.bokgpt.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,7 +66,7 @@ public class MemberSignupService {
 
     public Boolean emailCheck(String email) {
         if (email == null) {
-            throw new NotFoundMemberException("이메일을 입력해주세요.");
+            throw new MemberNotFoundException("이메일을 입력해주세요.");
         }
         return memberRepository.existsMemberByEmail(email);
     }
@@ -80,7 +80,7 @@ public class MemberSignupService {
         return MemberDto.from(
                 SecurityUtil.getCurrentEmail()
                         .flatMap(memberRepository::findOneWithAuthoritiesByEmail)
-                        .orElseThrow(() -> new NotFoundMemberException("Member not found"))
+                        .orElseThrow(() -> new MemberNotFoundException("Member not found"))
         );
     }
 }
