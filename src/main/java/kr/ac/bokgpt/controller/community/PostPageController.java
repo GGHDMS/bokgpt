@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.ac.bokgpt.domain.community.constant.SearchType;
-import kr.ac.bokgpt.dto.commmunity.response.PostResponseDto;
+import kr.ac.bokgpt.dto.commmunity.PostDto;
 import kr.ac.bokgpt.service.community.PostPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +32,7 @@ public class PostPageController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/posts")
-    public ResponseEntity<Page<PostResponseDto>> getPosts
+    public ResponseEntity<Page<PostDto>> searchPosts
             (@RequestParam(required = false) SearchType searchType,
              @RequestParam(required = false) String searchValue,
              @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable)

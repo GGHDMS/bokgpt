@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kr.ac.bokgpt.dto.commmunity.request.PostRequest;
-import kr.ac.bokgpt.dto.commmunity.response.PostWithCommentsResponseDto;
+import kr.ac.bokgpt.dto.commmunity.response.PostWithCommentsResponse;
 import kr.ac.bokgpt.service.community.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +29,8 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/posts/{postId}")
-    public ResponseEntity<PostWithCommentsResponseDto> searchPost(@PathVariable Long postId){
-        return ResponseEntity.ok(postService.searchPost(postId));
+    public ResponseEntity<PostWithCommentsResponse> searchPost(@PathVariable Long postId){
+        return ResponseEntity.ok(PostWithCommentsResponse.from(postService.searchPost(postId)));
     }
 
     @Tag(name="business")
@@ -76,10 +76,7 @@ public class PostController {
     })
     @PutMapping("/posts/{postId}")
     public ResponseEntity<String> updatePost(@PathVariable Long postId, @RequestBody PostRequest postRequest){
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{id}")
-                .buildAndExpand(postService.updatePost(postId, postRequest))
-                .toUri();
-        return ResponseEntity.created(uri).body("Success");
+        postService.updatePost(postId, postRequest);
+        return ResponseEntity.ok().body("Success");
     }
 }
