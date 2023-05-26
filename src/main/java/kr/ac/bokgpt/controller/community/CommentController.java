@@ -35,7 +35,6 @@ public class CommentController {
     @PostMapping("/posts/{postId}/comments")
     public ResponseEntity<String > uploadComment(@RequestBody CommentRequest commentRequest){
 
-
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(commentService.uploadComment(commentRequest))
