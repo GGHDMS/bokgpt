@@ -24,10 +24,10 @@ public class CommentAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         String httpMethod = request.getMethod();
+        String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
 
         if (isRestrictedMethod(httpMethod)) {
-            String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
-            Long commentId = extractPostId(request);
+            Long commentId = extractCommentId(request);
 
             Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
             String commentWriter = comment.getCreatedBy();
@@ -51,13 +51,12 @@ public class CommentAuthInterceptor implements HandlerInterceptor {
     }
 
     private boolean isRestrictedMethod(String httpMethod) {
-        return httpMethod.equals("POST") || httpMethod.equals("DELETE") || httpMethod.equals("PUT");
+        return httpMethod.equals("DELETE") || httpMethod.equals("PUT");
     }
 
-    private Long extractPostId(HttpServletRequest request) {
+    private Long extractCommentId(HttpServletRequest request) {
         Map<?, ?> pathVariables = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        String postIdString = (String) pathVariables.get("commentId");
-        return Long.parseLong(postIdString);
+        return Long.parseLong((String) pathVariables.get("commentId"));
     }
 
     private void sendForbiddenResponse(HttpServletResponse response) throws IOException {
