@@ -64,8 +64,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/members/me", "/members/me/classification").authenticated()
                 .anyRequest().permitAll()
-
                 .and()
+                .anonymous().disable()
                 .apply(new JwtSecurityConfig(tokenProvider));
 
         return httpSecurity.build();
