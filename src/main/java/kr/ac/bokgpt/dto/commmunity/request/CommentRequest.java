@@ -9,7 +9,7 @@ import lombok.Builder;
 @Builder
 public record CommentRequest(
 
-        @NotNull String contents,
+        @NotNull String content,
         @NotNull Long postId,
         Long parentCommentId
 
@@ -21,7 +21,7 @@ public record CommentRequest(
 
     public Comment toEntity(Member member, Post post){
         return Comment.builder()
-                .content(this.contents)
+                .content(this.content)
                 .post(post)
 //                childComment가 꼭 필요한지??
                 .parentCommentId(this.parentCommentId)

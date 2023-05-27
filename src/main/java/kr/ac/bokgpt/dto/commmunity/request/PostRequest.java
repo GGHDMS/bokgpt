@@ -9,7 +9,7 @@ public record PostRequest(
         @NotNull
         String title,
         @NotNull
-        String contents
+        String content
 ) {
 
     public static PostRequest of(String title, String contents){
@@ -19,7 +19,7 @@ public record PostRequest(
     public Post toEntity(Member member){
         return Post.builder()
                 .title(this.title)
-                .content(this.contents)
+                .content(this.content)
                 .member(member)
                 .build();
     }

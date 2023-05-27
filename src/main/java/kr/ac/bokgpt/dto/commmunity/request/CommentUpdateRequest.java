@@ -6,7 +6,7 @@ import lombok.Builder;
 @Builder
 public record CommentUpdateRequest(
         @NotNull
-        String contents,
+        String content,
         Long parentCommentId
 
 ) { }
