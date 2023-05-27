@@ -52,7 +52,7 @@ public class Comment extends AuditingFields {
     }
 
     public void updateComment(CommentUpdateRequest commentUpdateRequest){
-        this.content = commentUpdateRequest.contents();
+        this.content = commentUpdateRequest.content();
     }
 
 }
