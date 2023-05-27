@@ -46,7 +46,7 @@ public class PostController {
     ){
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{id}")
+                .path("/{id}")
                 .buildAndExpand(postService.uploadPost(postRequest))
                 .toUri();
 
@@ -67,7 +67,7 @@ public class PostController {
     }
 
     @Tag(name="business")
-    @Operation(summary = "update comment", description = "게시글 수정")
+    @Operation(summary = "update post", description = "게시글 수정")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "CREATED"),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
