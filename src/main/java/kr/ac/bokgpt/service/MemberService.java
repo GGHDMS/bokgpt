@@ -16,7 +16,7 @@ import kr.ac.bokgpt.repository.classification.HomeTypeRepository;
 import kr.ac.bokgpt.repository.classification.LifeCycleRepository;
 import kr.ac.bokgpt.repository.classification.LocationRepository;
 import kr.ac.bokgpt.repository.relationship.member.MemberHomeTypeRepository;
-import kr.ac.bokgpt.security.exception.NotFoundEmailException;
+import kr.ac.bokgpt.security.exception.EmailNotFoundException;
 import kr.ac.bokgpt.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ public class MemberService {
 
     private String getCurrentEmail() {
         return SecurityUtil.getCurrentEmail()
-                .orElseThrow(() -> new NotFoundEmailException("Email not found"));
+                .orElseThrow(() -> new EmailNotFoundException("Email not found"));
     }
 
 

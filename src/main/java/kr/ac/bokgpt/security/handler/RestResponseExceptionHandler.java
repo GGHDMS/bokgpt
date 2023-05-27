@@ -2,7 +2,7 @@ package kr.ac.bokgpt.security.handler;
 
 import kr.ac.bokgpt.security.dto.ErrorDto;
 import kr.ac.bokgpt.security.exception.DuplicateMemberException;
-import kr.ac.bokgpt.security.exception.NotFoundMemberException;
+import kr.ac.bokgpt.security.exception.MemberNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +25,7 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ResponseStatus(FORBIDDEN)
-    @ExceptionHandler(value = { NotFoundMemberException.class, AccessDeniedException.class })
+    @ExceptionHandler(value = { MemberNotFoundException.class, AccessDeniedException.class })
     @ResponseBody
     protected ErrorDto forbidden(RuntimeException ex, WebRequest request) {
         return new ErrorDto(FORBIDDEN.value(), ex.getMessage());
