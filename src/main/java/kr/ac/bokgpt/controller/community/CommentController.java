@@ -36,7 +36,7 @@ public class CommentController {
     public ResponseEntity<String> uploadComment(@RequestBody CommentRequest commentRequest) {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{id}")
+                .path("/{id}")
                 .buildAndExpand(commentService.uploadComment(commentRequest))
                 .toUri();
         return ResponseEntity.created(uri).body("Success");
