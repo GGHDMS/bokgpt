@@ -28,9 +28,9 @@ public class CommentService {
 
 
     @Transactional
-    public Long uploadComment(CommentRequest commentRequestDto){
+    public Long uploadComment(Long postId, CommentRequest commentRequestDto){
         Member member = memberRepository.findMemberByEmail(SecurityUtil.getCurrentEmail().orElseThrow(MemberNotFoundException::new));
-        Post post = postRepository.getReferenceById(commentRequestDto.postId());
+        Post post = postRepository.getReferenceById(postId);
         Comment comment= commentRepository.save(commentRequestDto.toEntity(member, post));
 
         if(comment.getParentCommentId() != null){

@@ -10,14 +10,9 @@ import lombok.Builder;
 public record CommentRequest(
 
         @NotNull String content,
-        @NotNull Long postId,
         Long parentCommentId
 
 ) {
-
-    public static CommentRequest of(String contents, Long postId, Long parentCommentId){
-        return new CommentRequest(contents, postId,parentCommentId);
-    }
 
     public Comment toEntity(Member member, Post post){
         return Comment.builder()

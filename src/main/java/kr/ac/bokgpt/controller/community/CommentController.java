@@ -33,11 +33,11 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<String> uploadComment(@RequestBody CommentRequest commentRequest) {
+    public ResponseEntity<String> uploadComment(@PathVariable Long postId, @RequestBody CommentRequest commentRequest) {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(commentService.uploadComment(commentRequest))
+                .buildAndExpand(commentService.uploadComment(postId, commentRequest))
                 .toUri();
         return ResponseEntity.created(uri).body("Success");
     }
