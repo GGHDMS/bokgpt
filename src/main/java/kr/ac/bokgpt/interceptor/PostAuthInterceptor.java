@@ -25,9 +25,9 @@ public class PostAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String httpMethod = request.getMethod();
+        String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
 
         if (isRestrictedMethod(httpMethod)) {
-            String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
             Long postId = extractPostId(request);
 
             Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
@@ -52,13 +52,12 @@ public class PostAuthInterceptor implements HandlerInterceptor {
     }
 
     private boolean isRestrictedMethod(String httpMethod) {
-        return httpMethod.equals("POST") || httpMethod.equals("DELETE") || httpMethod.equals("PUT");
+        return httpMethod.equals("DELETE") || httpMethod.equals("PUT");
     }
 
     private Long extractPostId(HttpServletRequest request) {
         Map<?, ?> pathVariables = (Map<?, ?>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        String postIdString = (String) pathVariables.get("postId");
-        return Long.parseLong(postIdString);
+        return Long.parseLong((String) pathVariables.get("postId"));
     }
 
     private void sendForbiddenResponse(HttpServletResponse response) throws IOException {
