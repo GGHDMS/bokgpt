@@ -1,6 +1,9 @@
-package kr.ac.bokgpt.domain;
+package kr.ac.bokgpt.domain.community;
 
 import jakarta.persistence.*;
+import kr.ac.bokgpt.domain.AuditingFields;
+import kr.ac.bokgpt.domain.Member;
+import kr.ac.bokgpt.dto.commmunity.request.CommentUpdateRequest;
 import lombok.*;
 
 import java.util.LinkedHashSet;
@@ -14,9 +17,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Reply extends AuditingFields{
+public class Comment extends AuditingFields {
     @Id
-    @Column(name = "reply_id")
+    @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -31,22 +34,25 @@ public class Reply extends AuditingFields{
     @Builder.Default
     @OrderBy("createdAt ASC")
     @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL)
-    private Set<Reply> childComments = new LinkedHashSet<>();
+    private Set<Comment> childComments = new LinkedHashSet<>();
 
     private Long parentCommentId;
-
     private String content;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Reply that)) return false;
+        if (!(o instanceof Comment that)) return false;
         return this.getId() != null && this.getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.getId());
+    }
+
+    public void updateComment(CommentUpdateRequest commentUpdateRequest){
+        this.content = commentUpdateRequest.contents();
     }
 
 }
