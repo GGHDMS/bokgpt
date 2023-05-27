@@ -24,7 +24,7 @@ public class CommentController {
     }
 
 
-    @Tag(name="business")
+    @Tag(name = "business")
     @Operation(summary = "upload comment", description = "댓글 등록")
     @ApiResponses({
             @ApiResponse(responseCode = "203", description = "CREATED"),
@@ -33,7 +33,7 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<String > uploadComment(@RequestBody CommentRequest commentRequest){
+    public ResponseEntity<String> uploadComment(@RequestBody CommentRequest commentRequest) {
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{id}")
@@ -42,7 +42,7 @@ public class CommentController {
         return ResponseEntity.created(uri).body("Success");
     }
 
-    @Tag(name="business")
+    @Tag(name = "business")
     @Operation(summary = "update comment", description = "댓글 수정")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -51,10 +51,11 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @PutMapping("/posts/{postId}/comments/{commentId}")
-    public ResponseEntity<String> updateComment(@PathVariable Long postId,@PathVariable Long commentId,@RequestBody CommentUpdateRequest commentUpdateRequest){
-        return ResponseEntity.ok(commentService.updateComment(postId,commentId,commentUpdateRequest));
+    public ResponseEntity<String> updateComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentUpdateRequest commentUpdateRequest) {
+        return ResponseEntity.ok(commentService.updateComment(postId, commentId, commentUpdateRequest));
     }
-    @Tag(name="business")
+
+    @Tag(name = "business")
     @Operation(summary = "delete comment", description = "댓글 삭제")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
@@ -63,7 +64,7 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long postId, @PathVariable Long commentId){
-        return ResponseEntity.ok(commentService.deleteComment(postId,commentId));
+    public ResponseEntity<String> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
+        return ResponseEntity.ok(commentService.deleteComment(postId, commentId));
     }
 }
