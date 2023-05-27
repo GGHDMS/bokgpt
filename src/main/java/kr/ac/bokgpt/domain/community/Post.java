@@ -45,7 +45,7 @@ public class Post extends AuditingFields {
 
     public void updatePost(PostRequest postRequest){
         this.title = postRequest.title();
-        this.content = postRequest.contents();
+        this.content = postRequest.content();
     }
 
 
