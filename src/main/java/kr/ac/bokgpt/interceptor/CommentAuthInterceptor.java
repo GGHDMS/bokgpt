@@ -24,11 +24,14 @@ public class CommentAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         String httpMethod = request.getMethod();
+        if (httpMethod.equals("GET")) {
+            return true;
+        }
+
         String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
 
         if (isRestrictedMethod(httpMethod)) {
             Long commentId = extractCommentId(request);
-
             Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
             String commentWriter = comment.getCreatedBy();
 
@@ -63,6 +66,6 @@ public class CommentAuthInterceptor implements HandlerInterceptor {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().println("NOT AUTHORIZE!!");
+        response.getWriter().println("NOT AUTHORIZED!!");
     }
 }

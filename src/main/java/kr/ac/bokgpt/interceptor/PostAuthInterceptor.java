@@ -25,6 +25,10 @@ public class PostAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String httpMethod = request.getMethod();
+        if (httpMethod.equals("GET")) {
+            return true;
+        }
+
         String currentEmail = SecurityUtil.getCurrentEmail().orElseThrow(EmailNotFoundException::new);
 
         if (isRestrictedMethod(httpMethod)) {
@@ -64,6 +68,6 @@ public class PostAuthInterceptor implements HandlerInterceptor {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().println("NOT AUTHORIZE!!");
+        response.getWriter().println("NOT AUTHORIZED!!");
     }
 }
