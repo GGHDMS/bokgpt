@@ -18,7 +18,7 @@ Spring Boot
 * Spring Data JPA
 * Spring Security
 * H2 Database
-* MiriaDB Driver
+* MariaDB Driver
 * Lombok
 * Spring Boot DevTools
 * Spring Configuration Processor
